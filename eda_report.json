@@ -1,0 +1,91 @@
+{
+  "shape": [
+    891,
+    15
+  ],
+  "missing_pct": {
+    "deck": 77.22,
+    "age": 19.87,
+    "embarked": 0.22,
+    "embark_town": 0.22
+  },
+  "missing_decisions": {
+    "deck": "77.22% missing (>30%) -> too high to impute reliably; encoded missing values as their own category 'Missing' rather than dropping the column outright, since 'unknown deck' may itself correlate with fare class/survival.",
+    "age": "19.87% missing (5-30%) -> imputed with median (28.00) since 'age' is numeric.",
+    "embarked": "0.22% missing (<5%) -> dropped 2 rows with missing 'embarked'.",
+    "embark_town": "0.22% missing (<5%) -> dropped 0 rows with missing 'embark_town'."
+  },
+  "shape_after_cleaning": [
+    889,
+    15
+  ],
+  "iqr_outliers": {
+    "age": 65,
+    "fare": 114
+  },
+  "fare_stats": {
+    "mean": 32.09668087739032,
+    "median": 14.4542,
+    "mode": 8.05
+  },
+  "fare_skew_text": "fare is right-skewed: mean (32.10) > median (14.45) > mode (8.05), the classic signature of a long right tail caused by a small number of very expensive first-class fares pulling the mean above the median and mode.",
+  "survival": {
+    "by_sex": {
+      "male": 0.1889,
+      "female": 0.7404
+    },
+    "by_pclass": {
+      "1": 0.6262,
+      "2": 0.4728,
+      "3": 0.2424
+    },
+    "by_sex_pclass": {
+      "male_pclass1": 0.3689,
+      "male_pclass2": 0.1574,
+      "male_pclass3": 0.1354,
+      "female_pclass1": 0.9674,
+      "female_pclass2": 0.9211,
+      "female_pclass3": 0.5
+    }
+  },
+  "top2_correlations": [
+    {
+      "pair": "pclass-fare",
+      "corr": -0.548
+    },
+    {
+      "pair": "sibsp-parch",
+      "corr": 0.415
+    }
+  ],
+  "corr_interpretation": "The two strongest off-diagonal correlations are pclass-fare (-0.55) and sibsp-parch (0.41). pclass and fare move together because lower pclass numbers (1st class) are sold at much higher fares.",
+  "multivariate_interpretations": [
+    "Chart 1 (bar, survival by class & sex): Women survived at a far higher rate than men in every class, and the gap barely narrows even in 3rd class, showing 'women and children first' dominated over class privilege. Within each sex, survival still drops steadily from 1st to 3rd class, so both sex and class independently mattered.",
+    "Chart 2 (box, age by survival): The median age is similar between survivors and non-survivors, but survivors show a wider lower tail, reflecting the many young children who were prioritized for lifeboats. Age alone is a weak predictor compared to sex and class.",
+    "Chart 3 (scatter, fare vs age colored by survival): Green (survived) points cluster more densely at higher fares, while red (died) points dominate the low-fare band regardless of age. This visually reinforces that ticket price (a proxy for class/wealth) separates outcomes more than age does.",
+    "Chart 4 (bar, survival by family size): Passengers travelling alone (family_size=1) or in very large families (6+) survived at the lowest rates, while small families of 2-4 survived best. This suggests solo travellers lacked help coordinating an escape, while very large families struggled to stay together and evacuate as a unit.",
+    "Chart 5 (bar, survival by embarkation port): Passengers who boarded at Cherbourg survived at a noticeably higher rate than those from Southampton or Queenstown. This is likely a proxy effect \u2014 Cherbourg had a higher proportion of 1st-class passengers \u2014 rather than the port itself causing survival."
+  ],
+  "standardization_check": {
+    "before": {
+      "age": {
+        "mean": 29.315,
+        "std": 12.985
+      },
+      "fare": {
+        "mean": 32.097,
+        "std": 49.698
+      }
+    },
+    "after": {
+      "age": {
+        "mean": 0.0,
+        "std": 1.0
+      },
+      "fare": {
+        "mean": 0.0,
+        "std": 1.0
+      }
+    }
+  }
+}

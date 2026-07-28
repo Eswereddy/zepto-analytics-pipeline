@@ -1,0 +1,99 @@
+{
+  "class_balance": {
+    "0": 0.6175,
+    "1": 0.3825
+  },
+  "classifier_comparison": [
+    {
+      "Model": "Logistic Regression",
+      "Accuracy": 0.809,
+      "Precision": 0.7833,
+      "Recall": 0.6912,
+      "F1": 0.7344,
+      "AUC": 0.861,
+      "ConfusionMatrix": [
+        [
+          97,
+          13
+        ],
+        [
+          21,
+          47
+        ]
+      ]
+    },
+    {
+      "Model": "Decision Tree",
+      "Accuracy": 0.764,
+      "Precision": 0.76,
+      "Recall": 0.5588,
+      "F1": 0.6441,
+      "AUC": 0.8374,
+      "ConfusionMatrix": [
+        [
+          98,
+          12
+        ],
+        [
+          30,
+          38
+        ]
+      ]
+    },
+    {
+      "Model": "Random Forest",
+      "Accuracy": 0.809,
+      "Precision": 0.7656,
+      "Recall": 0.7206,
+      "F1": 0.7424,
+      "AUC": 0.8196,
+      "ConfusionMatrix": [
+        [
+          95,
+          15
+        ],
+        [
+          19,
+          49
+        ]
+      ]
+    }
+  ],
+  "imbalance_comparison": [
+    {
+      "Strategy": "Baseline (no handling)",
+      "Precision": 0.7833,
+      "Recall": 0.6912,
+      "F1": 0.7344
+    },
+    {
+      "Strategy": "class_weight='balanced'",
+      "Precision": 0.7183,
+      "Recall": 0.75,
+      "F1": 0.7338
+    },
+    {
+      "Strategy": "SMOTE (train fold only)",
+      "Precision": 0.7353,
+      "Recall": 0.7353,
+      "F1": 0.7353
+    }
+  ],
+  "imbalance_conclusion": "Class balance was {0: 0.6175, 1: 0.3825}. Both class_weight='balanced' and SMOTE trade some precision for higher recall on the minority ('survived') class compared to the baseline, since they force the model to pay more attention to survivors. 'class_weight='balanced'' achieved the highest recall in this run. For a Titanic-style task where missing an actual survivor (a false negative) is arguably worse than a false alarm, we would favor whichever of the two resampling strategies gives the best F1/recall trade-off \u2014 here, SMOTE and class_weight performed similarly, with the choice coming down to F1 as the balanced summary metric.",
+  "grid_search": {
+    "best_params": {
+      "classifier__max_depth": null,
+      "classifier__max_features": "sqrt",
+      "classifier__n_estimators": 300
+    },
+    "oob_score": 0.8073
+  },
+  "regression": {
+    "MAE": 21.099,
+    "RMSE": 41.702,
+    "R2": 0.3482,
+    "Adj_R2": 0.3213,
+    "heteroscedasticity_text": "Residual spread is clearly non-constant across the predicted range (std of residuals for low-predicted-fare half = 13.22 vs high half = 57.21), so the residual plot does show heteroscedasticity \u2014 the funnel/fan shape widening as predicted fare increases is consistent with fare's right-skewed, high-variance nature at the top end."
+  },
+  "final_recommendation": "We recommend deploying the Random Forest: it achieves the best balance of precision (0.766) and recall (0.721), giving the top F1 score (0.742) among the three classifiers, and an AUC of 0.820 indicating strong ranking ability between survivors and non-survivors. Random Forest also tends to be more robust to the non-linear interactions we saw in the data story (e.g. sex-by-class effects) than plain Logistic Regression, without the overfitting risk of a single unpruned Decision Tree. GridSearchCV tuning further confirmed a strong out-of-bag score of 0.807, close to the held-out test performance, indicating the tuned model generalizes well rather than overfitting the training fold."
+}
